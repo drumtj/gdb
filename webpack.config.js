@@ -174,11 +174,11 @@ const testConfig = {
 let libraryName = "GDB";
 let pfh = `(function webpackUniversalModuleDefinition(root, factory) {
   if(typeof exports === 'object' && typeof module === 'object')
-    module.exports = factory();
+    module.exports = factory().default;
   else if(typeof define === 'function' && define.amd)
     define([], factory);
   else if(typeof exports === 'object')
-    exports['MyLibrary'] = factory();
+    exports['MyLibrary'] = factory().default;
   else{
     root['MyLibrary'] = factory().default;
   }
