@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="./gdb.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+    var db = new GDB("[google-sheet-id]");
+    console.error(db);
+    db.query({
+      sheetName: "data",
+      sql: "SELECT *"
+    }).then(function(json){
+      console.log(json);
+    }).catch(function(e){
+      console.error(e);
+    })
+    </script>
+  </body>
+</html>
