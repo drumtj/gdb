@@ -1,6 +1,6 @@
 {
   "name": "@drumtj/gdb",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "db query on google sheet",
   "main": "./dist/gdb.umd.js",
   "scripts": {
