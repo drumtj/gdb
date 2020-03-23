@@ -92,14 +92,14 @@ export default class GDB {
       }
     }
 		result.getRow = function(index){
-			return this[index];			
+			return this[index];
 		}
     result.getColumn = function(name){
       let ckey = this.findColumnKeyByName(name);
 			if(!ckey) return null;
       let l = this.length, r=[], lastRow=0;
 
-      for(let i=0; i<l; i++){
+      for(let i=1; i<l; i++){
         if(this[i][ckey] !== null){
 					lastRow = i;
           r.push(this[i][ckey]);
