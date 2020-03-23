@@ -16,16 +16,19 @@ $ npm install @drumtj/gdb
 
 Using cdn:
 ```html
-<script src="https://unpkg.com/@drumtj/wiki@1.0.1/dist/gdb.js"></script>
+<script src="https://unpkg.com/@drumtj/wiki@1.0.2/dist/gdb.js"></script>
 ```
 
-Using ES2015
+CommonJS
 ```js
 import GDB from '@drumtj/gdb';
 ```
+```js
+const GDB = require('@drumtj/gdb');
+```
 
 ## caution
-### Only Google Sheet with shared link is working.
+Only Google Sheet with shared link is working.
 
 ## How To
 
