@@ -16,7 +16,7 @@ $ npm install @drumtj/gdb
 
 Using cdn:
 ```html
-<script src="https://unpkg.com/@drumtj/wiki@1.0.13/dist/gdb.js"></script>
+<script src="https://unpkg.com/@drumtj/wiki@1.0.14/dist/gdb.js"></script>
 ```
 
 CommonJS
@@ -31,6 +31,9 @@ const GDB = require('@drumtj/gdb');
 Only Google Sheet with shared link is working.
 
 ## How To
+
+### query language syntax document
+https://developers.google.com/chart/interactive/docs/querylanguage
 
 ### test google sheet
 https://docs.google.com/spreadsheets/d/1Ha9S6ZjGobRoIzzIHJeeUKcLBYqooRZ7V7PMCEN3qKg/edit#gid=0

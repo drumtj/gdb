@@ -3,9 +3,11 @@ import GDB from "./index";
 
 
 var db = new GDB("1Ha9S6ZjGobRoIzzIHJeeUKcLBYqooRZ7V7PMCEN3qKg");
+
 db.query({
   sheetName: "data",
   sql: "SELECT B, C, D, E where D is not null"
+  // sql: "SELECT *"
 }).then(function(data){
   console.log("data", data);
   console.log('findColumnKeyByName("author") =>', data.findColumnKeyByName("author"));

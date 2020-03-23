@@ -30,12 +30,12 @@ export default class GDB {
 	private qurl:string = "https://docs.google.com/spreadsheets/d/{id}/gviz/tq?";
 	private id:string = null;
 	tqx:string = 'out:json';
-	header:number = 1;
+	// header:number = 1;
 
-	constructor (id:string=null, header:number=2)
+	constructor (id:string=null)//, header:number=2)
 	{
 		this.setId(id);
-		this.header = header;
+		// this.header = header;
 	}
 
 	setId(id:string){
@@ -56,6 +56,14 @@ export default class GDB {
 		}
 		var cols = data.table.cols;
 		var rows = data.table.rows;
+		if(cols[0].label == ""){
+			//시트의 첫 컬럼이 번호로 안되있으면 해더가 0으로 되더라.
+			//이때 rows에 첫 배열에 해더가 들어온다.
+			cols.forEach(function(col, i){
+				col.label = rows[0]['c'][i].v;
+			})
+			rows.splice(0, 1);
+		}
 		var column_length = cols.length;
 		if (!column_length || !rows.length)
 		{
@@ -174,7 +182,7 @@ export default class GDB {
 		var params:any = {
 			//key: dkey,
 			tq: encodeURIComponent(option.sql),
-			header: this.header,
+			// header: this.header,
 			tqx: this.tqx
 		};
 
