@@ -1,4 +1,4 @@
-import GDB from "./index";
+import GDB from "../../dist/gdb.js";
 
 
 var db = new GDB("1PDi6pcuAqya5VuM044nkqrF1-oQWdRO4NDfubY2sX3k");
