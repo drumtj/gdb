@@ -32,7 +32,7 @@ export default class GDB {
 	tqx:string = 'out:json';
 	header:number = 1;
 
-	constructor (id:string=null, header:number=1)
+	constructor (id:string=null, header:number=2)
 	{
 		this.setId(id);
 		this.header = header;
@@ -50,6 +50,10 @@ export default class GDB {
 
 		var data:any = JSON.parse(json);
     // console.error("parse", data);
+		if(data.status == "error"){
+			// console.error(data.errors);
+			throw data.errors;
+		}
 		var cols = data.table.cols;
 		var rows = data.table.rows;
 		var column_length = cols.length;
@@ -84,29 +88,76 @@ export default class GDB {
 				result[rows_idx][columns[row_idx]] = value;
 			}
 		}
+
+		// console.error("cols", cols);
+		// console.error("columns", columns);
 		result.findColumnKeyByName = function (name){
-      for(let k in this[0]){
-        if(this[0][k] == name){
-          return k;
-        }
-      }
+			let names, isString;
+			if(typeof name === "string"){
+				isString = true;
+				names = name.split(',');
+			}else if(Array.isArray(name)){
+				names = name;
+			}
+			names = names.map(function(name){
+				return name.trim();
+			})
+			names = names.map(function(name){
+	      for(let k in cols){
+					// console.error(cols[k].label, name);
+	        if(cols[k].label == name){
+	          return cols[k].id;
+	        }
+	      }
+			})
+			if(isString){
+				return names.join(',');
+			}
+
+			return names.length <= 1 ? names[0] : names;
     }
 		result.getRow = function(index){
 			return this[index];
 		}
-    result.getColumn = function(name){
-      let ckey = this.findColumnKeyByName(name);
-			if(!ckey) return null;
-      let l = this.length, r=[], lastRow=0;
+    result.getColumn = function(columnKey){
+			let keys;
+			if(Array.isArray(columnKey)){
+				keys = columnKey;
+			}else if(typeof columnKey === "string"){
+				keys = columnKey.split(',');
+			}else{
+				throw "wrong param";
+			}
 
-      for(let i=1; i<l; i++){
-        if(this[i][ckey] !== null){
-					lastRow = i;
-          r.push(this[i][ckey]);
+			keys = keys.map(function(key){
+				return key.trim();
+			})
+
+			console.error(keys);
+
+      let rr = [];
+      for(let i=0; i<keys.length; i++){
+        // let ckey = this.findColumnKeyByName(keys[i]);
+				let ckey = keys[i];
+  			if(!ckey) {
+					rr.push([]);
+					break;
+				}
+
+        let l = this.length, r=[], lastRow=0;
+
+        for(let i=1; i<l; i++){
+					console.error(this[i][ckey]);
+          if(this[i][ckey] !== null){
+  					lastRow = i;
+            r.push(this[i][ckey]);
+          }
         }
+  			r.splice(lastRow+1);
+        rr.push(r);
       }
-			r.splice(lastRow+1);
-      return r;
+
+      return rr.length <= 1 ? rr[0] : rr;
     }
 		return result;
 	}
