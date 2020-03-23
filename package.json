@@ -27,7 +27,7 @@
     "url": "https://github.com/drumtj/gdb/issues",
     "email": "drumtj@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.7.5",
     "@babel/core": "^7.7.5",

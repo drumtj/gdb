@@ -12,8 +12,10 @@
     db.query({
       sheetName: "data",
       sql: "SELECT *"
-    }).then(function(json){
-      console.log(json);
+    }).then(function(data){
+      console.log(data);
+      console.error(data.findColumnKeyByName("과목명"));
+      console.error(data.getColumn("과목명"));
     }).catch(function(e){
       console.error(e);
     })

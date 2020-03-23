@@ -16,7 +16,7 @@ $ npm install @drumtj/gdb
 
 Using cdn:
 ```html
-<script src="https://unpkg.com/@drumtj/wiki@1.0.3/dist/gdb.js"></script>
+<script src="https://unpkg.com/@drumtj/wiki@1.0.4/dist/gdb.js"></script>
 ```
 
 CommonJS
@@ -27,7 +27,7 @@ import GDB from '@drumtj/gdb';
 const GDB = require('@drumtj/gdb');
 ```
 
-## caution
+## Caution
 Only Google Sheet with shared link is working.
 
 ## How To
@@ -41,12 +41,41 @@ db.query({
   //gid: 122345642, //sheetid
 
   ////// sql query
-  // sql : "SELECT E, F, G, L where J = 'AnimateCC' and L IS NOT NULL",
+  // sql: "SELECT *"
+  // sql : "SELECT E, F, G, L where J = 'AnimateCC' and L IS NOT NULL"
   sql : "SELECT E, F, G, J, L where (J = 'AnimateCC' or J = 'FullAni') and L IS NOT NULL"
-}).then(function(json){
-  console.error(json);
-});
+}).then(function(data){
+  console.log("data:", data);
 
+  console.log(data.findColumnKeyByName("AnimaionType"));
+  console.log(data.getColumn("AnimaionType"));
+  console.log(data.getRow(0));
+});
+```
+
+## Interface
+```ts
+class GDB {
+  interface QueryOption {
+  	sheetName?: string;
+  	gid? 			: string | number;
+  	sql				: string;
+  };
+
+  interface GDBRowData {
+    [column: string]: string|number;
+  }
+
+
+  constructor(sheetID:string=null, header:number=1);
+  setId(sheetID:string);
+  getId();
+  query(option:QueryOption):Promise<GDBRowData[]>;
+}  
+
+data.findColumnKeyByName(columnName:string):string;
+data.getColumn(columnName:string):any[];
+data.getRow(index:number):Object;
 ```
 
 

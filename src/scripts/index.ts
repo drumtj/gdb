@@ -27,25 +27,29 @@ export default class GDB {
 	//static REQUEST_TIMEOUT:string = "requestTimeout";
 
 	//private qurl:string = "https://spreadsheets.google.com/tq?";
-	private qurl:string = "https://docs.google.com/spreadsheets/d/{key}/gviz/tq?";
-	private key:string = null;
+	private qurl:string = "https://docs.google.com/spreadsheets/d/{id}/gviz/tq?";
+	private id:string = null;
 	tqx:string = 'out:json';
 	header:number = 1;
 
-	constructor (key:string=null, header:number=1)
+	constructor (id:string=null, header:number=1)
 	{
-		this.setKey(key);
+		this.setId(id);
 		this.header = header;
 	}
 
-	setKey(key:string){
-		this.key = key;
+	setId(id:string){
+		this.id = id;
 	}
 
-	parse(json:string) {
+	getId(){
+		return this.id;
+	}
+
+	private parse(json:string) {
 
 		var data:any = JSON.parse(json);
-    // console.error("parse", data);
+    console.error("parse", data);
 		var cols = data.table.cols;
 		var rows = data.table.rows;
 		var column_length = cols.length;
@@ -54,7 +58,7 @@ export default class GDB {
 			return false;
 		}
 		var columns = [],
-			result = [],
+			result:any = [],
 			row_length: number,
 			value;
 		var column_idx, rows_idx, row_idx;
@@ -80,20 +84,40 @@ export default class GDB {
 				result[rows_idx][columns[row_idx]] = value;
 			}
 		}
+		result.findColumnKeyByName = function (name){
+      for(let k in this[0]){
+        if(this[0][k] == name){
+          return k;
+        }
+      }
+    }
+		result.getRow = function(index){
+			return this[index];			
+		}
+    result.getColumn = function(name){
+      let ckey = this.findColumnKeyByName(name);
+			if(!ckey) return null;
+      let l = this.length, r=[], lastRow=0;
+
+      for(let i=0; i<l; i++){
+        if(this[i][ckey] !== null){
+					lastRow = i;
+          r.push(this[i][ckey]);
+        }
+      }
+			r.splice(lastRow+1);
+      return r;
+    }
 		return result;
 	}
 
 	query(option:QueryOption) {
-		return this.drequest(this.key, option);
+		return this.request(this.id, option);
 	}
 
-	// request(option:QueryOption): JQueryXHR{
-	// 	return this.drequest(this.key, option);
-	// }
-
-	drequest(dkey:string, option:QueryOption){
-		if(dkey == null){
-			return Promise.reject("wrong key");
+	request(id:string, option:QueryOption){
+		if(id == null){
+			return Promise.reject("wrong id");
 		}
 
 		var params:any = {
@@ -118,7 +142,7 @@ export default class GDB {
 		}
 
 		let self = this;
-		return xhr(this.qurl.replace("{key}",dkey) + qs.join('&')).then(function(data:string){
+		return xhr(this.qurl.replace("{id}",id) + qs.join('&')).then(function(data:string){
 			let json;
 			try{
 				json = self.parse(data.substring(data.indexOf('{'), data.lastIndexOf('}')+1));
@@ -127,54 +151,8 @@ export default class GDB {
 			}
 			return json;
 		});
-		// console.error(qs.join('&'));
-		// return new Promise(function(resolve, reject){
-		// 	$.ajax(( self.qurl.replace("{key}",dkey) + qs.join('&')), {
-		// 	//$.ajax( this.qurl + qs.join('&'), {
-	  //     type: "get",
-	  //     crossDomain: true,
-	  //     //type: "get",
-	  //     dataType: "text",
-		// 		//type: "jsonp",
-	  //     //jsonpCallback: "google.visualization.Query.setResponse",
-		// 		//timeout: 15000,
-		// 		success: function(data){
-		// 			try{
-		// 				data = data.substring(data.indexOf('{'), data.lastIndexOf('}')+1);
-		// 				resolve(self.parse(data));
-		// 				//console.error(data);
-		// 				//console.log("GSheet response:", data);
-		// 			}catch(e){
-		// 				console.log(e)
-		// 				reject("request data error");
-		// 			}
-		//
-		// 			// if(option.callback) option.callback(data);
-		// 		},
-		// 		error: function(e){
-		// 			console.error("ERROR", e);
-		// 			reject("request data error");
-		// 			//dispatchEvent(new Event(GSheet.REQUEST_TIMEOUT));
-		// 		}
-		// 	});
-		// })
 	}
 
-	// dquery(dkey:string, option:QueryOption): JQueryXHR{
-  //   var self = this;
-	// 	if(option.callback){
-	// 		var fn = option.callback;
-	// 		option.callback = function(jsonStr){
-	// 			try{
-	// 				var p = self.parse(jsonStr);
-	// 			}catch(e){
-	// 				throw new Error("파싱오류");
-	// 			}
-	// 			fn.call(null, p);
-	// 		};
-	// 	}
-	// 	return this.drequest(dkey, option);
-	// }
 
 }
 
