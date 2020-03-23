@@ -16,7 +16,7 @@ $ npm install @drumtj/gdb
 
 Using cdn:
 ```html
-<script src="https://unpkg.com/@drumtj/wiki@1.0.7/dist/gdb.js"></script>
+<script src="https://unpkg.com/@drumtj/wiki@1.0.8/dist/gdb.js"></script>
 ```
 
 CommonJS
