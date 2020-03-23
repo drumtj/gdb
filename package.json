@@ -2,7 +2,7 @@
   "name": "@drumtj/gdb",
   "version": "1.0.4",
   "description": "db query on google sheet",
-  "main": "./dist/gdb.umd.js",
+  "main": "./dist/gdb.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack -p",
