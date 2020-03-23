@@ -49,7 +49,7 @@ export default class GDB {
 	private parse(json:string) {
 
 		var data:any = JSON.parse(json);
-    console.error("parse", data);
+    // console.error("parse", data);
 		var cols = data.table.cols;
 		var rows = data.table.rows;
 		var column_length = cols.length;
