@@ -97,8 +97,8 @@ export default class GDB {
 			}
 		}
 
-		console.error("cols", cols);
-		console.error("columns", columns);
+		// console.error("cols", cols);
+		// console.error("columns", columns);
 		result.getHeader = function(){
 			return JSON.parse(JSON.stringify(cols));
 		}
