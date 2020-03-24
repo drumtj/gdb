@@ -49,7 +49,7 @@ export default class GDB {
 	private parse(json:string) {
 
 		var data:any = JSON.parse(json);
-    console.error("parse", data);
+    // console.error("parse", data);
 		if(data.status == "error"){
 			// console.error(data.errors);
 			throw data.errors;
