@@ -60,7 +60,9 @@ export default class GDB {
 			//시트의 첫 컬럼이 번호로 안되있으면 해더가 0으로 되더라.
 			//이때 rows에 첫 배열에 해더가 들어온다.
 			cols.forEach(function(col, i){
-				col.label = rows[0]['c'][i].v;
+				if(rows[0]['c'][i]){
+					col.label = rows[0]['c'][i].v;
+				}
 			})
 			rows.splice(0, 1);
 		}
