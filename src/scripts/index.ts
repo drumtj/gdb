@@ -146,12 +146,13 @@ export default class GDB {
 				return key.trim();
 			})
 
-			// console.error(keys);
+			// console.error("keys", keys);
 
       let rr = [];
       for(let i=0; i<keys.length; i++){
         // let ckey = this.findColumnKeyByName(keys[i]);
 				let ckey = keys[i];
+				// console.error("ckey", ckey);
   			if(!ckey) {
 					rr.push([]);
 					break;
@@ -159,8 +160,8 @@ export default class GDB {
 
         let l = this.length, r=[], lastRow=0;
 
-        for(let i=1; i<l; i++){
-					// console.error(this[i][ckey]);
+        for(let i=0; i<l; i++){
+					// console.error("--", this[i][ckey]);
           if(this[i][ckey] !== null){
   					lastRow = i;
             r.push(this[i][ckey]);
