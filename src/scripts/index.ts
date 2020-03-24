@@ -49,7 +49,7 @@ export default class GDB {
 	private parse(json:string) {
 
 		var data:any = JSON.parse(json);
-    // console.error("parse", data);
+    console.error("parse", data);
 		if(data.status == "error"){
 			// console.error(data.errors);
 			throw data.errors;
@@ -97,8 +97,11 @@ export default class GDB {
 			}
 		}
 
-		// console.error("cols", cols);
-		// console.error("columns", columns);
+		console.error("cols", cols);
+		console.error("columns", columns);
+		result.getHeader = function(){
+			return JSON.parse(JSON.stringify(cols));
+		}
 		result.findColumnKeyByName = function (name){
 			let names, isString;
 			if(typeof name === "string"){

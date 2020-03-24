@@ -16,7 +16,7 @@ $ npm install @drumtj/gdb
 
 Using cdn:
 ```html
-<script src="https://unpkg.com/@drumtj/wiki@1.0.14/dist/gdb.js"></script>
+<script src="https://unpkg.com/@drumtj/wiki@1.0.15/dist/gdb.js"></script>
 ```
 
 CommonJS
@@ -57,6 +57,7 @@ db.query({
   console.log('getColumn("E") =>', data.getColumn("E"));
   console.log('getColumn(findColumnKeyByName("author, email")) =>', data.getColumn(data.findColumnKeyByName("author, email")));
   console.log('getRow(0) =>', data.getRow(0));
+  console.log('getHeader() =>', data.getHeader());
 });
 ```
 
@@ -82,6 +83,7 @@ class GDB {
 data.findColumnKeyByName(columnName:string|string[]):string|string[];
 data.getColumn(columnKey:string):any[]|any[][];
 data.getRow(index:number):Object;
+data.getHeader():any[];
 ```
 
 ## Test

@@ -20,6 +20,7 @@
       console.log('getColumn("E") =>', data.getColumn("E"));
       console.log('getColumn(findColumnKeyByName("author, email")) =>', data.getColumn(data.findColumnKeyByName("author, email")));
       console.log('getRow(0) =>', data.getRow(0));
+      console.log('getHeader() =>', data.getHeader());
     }).catch(function(e){
       console.error(e);
     })
